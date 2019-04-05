@@ -13,6 +13,7 @@ Full list of packages that will be installed:
 
 | Package Name                                           | Highlights _(from chocolatey.org)_ |
 | ------------------------------------------------------ | ---------------------------- |
+| [postman](https://chocolatey.org/packages/postman)     | Postman helps yous be more efficient while working with APIs. Using Postman, you can construct complex HTTP requests quickly, organize them in collections and share them with your co-workers. |
 | [gitkraken](https://chocolatey.org/packages/gitkraken) | The intuitive, fast, and beautiful cross-platform Git client. NOTE: GitKraken web site does not allow to download a specific version, so this package *always* downloads the latest one. |
 | [kubernetes-helm](https://chocolatey.org/packages/kubernetes-helm) | Helm helps you manage Kubernetes applications - Helm Charts helps you define, install, and upgrade even the most complex Kubernetes application. |
 | [kubernetes-kompose](https://chocolatey.org/packages/kubernetes-kompose) |  Kompose is a conversion tool for Docker Compose to container orchestrators such as Kubernetes (or OpenShift). |
