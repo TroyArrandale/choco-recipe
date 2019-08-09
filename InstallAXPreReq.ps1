@@ -136,6 +136,29 @@ Install-ChocolateyPackage `
 -checksumtype 'SHA256'
 
 
+Install-ChocolateyPackage `
+'Synchronization-KB2703853-v2.1-x64-ENU.msi' 'msi' "/quiet /norestart" `
+'https://raw.githubusercontent.com/TroyArrandale/choco-recipe/master/KB2703853/448521_intl_x64_zip/Synchronization-KB2703853-v2.1-x64-ENU.msi' `
+-checksum 'A8E0EE1D5EB7D99FCD80ABB85AF65FFF405138EF5E3CC3B8C119D2D09E660ABA' `
+-checksumtype 'SHA256'
+
+
+Install-ChocolateyPackage `
+'DatabaseProviders-KB2703853-v3.1-x64-ENU' 'msi' "/quiet /norestart" `
+'https://raw.githubusercontent.com/TroyArrandale/choco-recipe/master/KB2703853/448519_intl_x64_zip/DatabaseProviders-KB2703853-v3.1-x64-ENU.msi' `
+-checksum '1E4A271B4933DFEA27C77E85D730D456B7838A0151354019A5FEE4C074303F42' `
+-checksumtype 'SHA256'
+
+
+Install-ChocolateyPackage `
+'ProviderServices-KB2703853-v2.1-x64-ENU.msi' 'msi' "/quiet /norestart" `
+'https://raw.githubusercontent.com/TroyArrandale/choco-recipe/master/KB2703853/448520_intl_x64_zip/ProviderServices-KB2703853-v2.1-x64-ENU.msi' `
+-checksum '0A97A7D7F9D1816009EA083796F895FF97B9B986C100704E99198A3A50B94F8A' `
+-checksumtype 'SHA256'
+
+
+
+
 #TODO
 
 #https://download.microsoft.com/download/1/3/0/13089488-91FC-4E22-AD68-5BE58BD5C014/ENU/x64/SQL_AS_ADOMD.msi
