@@ -36,6 +36,9 @@ choco install -y WCF-MSMQ-Activation45 --source="'windowsFeatures'"
 choco install -y IIS-WindowsAuthentication --source="'windowsFeatures'"       
 
 #todo need to add SSRS and SSIS etc.
+#https://docs.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server-using-a-configuration-file?view=sql-server-2017
+# Create installer ini file and pass to choco
+
 choco install -y sql-server-2017
 choco install -y sql-server-management-studio
 
@@ -157,7 +160,8 @@ Install-ChocolateyPackage `
 -checksumtype 'SHA256'
 
 
-
+#TODO Needs to be seperate installer
+choco install visualstudio2013professional
 
 #TODO
 
