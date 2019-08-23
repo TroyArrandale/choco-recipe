@@ -1,4 +1,29 @@
 <# chocolatey setup #> 
+
+
+# The Prequisties for the following components will be installed:
+
+#       - Databases
+#       - Application Object Server (AOS)
+#       - Debugger
+#       - Management utilities
+#       - .NET Business Connector
+#       - Client
+#       - Retail POS
+#       - Retail SDK
+#       - Retail Salt Utility
+#       - Retail Channel Configuration Utility
+#       - Real-time Service
+#       - Retail channel database
+#       - Visual Studio 2013 Tools
+#       - Async Server
+#       - Async Client
+#       - Data Import/Export Framework (DIXF) service
+#       - AOS component
+#       - Client component
+#       - Trace Parser
+
+
 Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')); 
 
 #Load choclatey so we can use 
@@ -35,14 +60,19 @@ choco install -y WCF-Pipe-Activation45    --source="'windowsFeatures'"
 choco install -y WCF-MSMQ-Activation45 --source="'windowsFeatures'"       
 choco install -y IIS-WindowsAuthentication --source="'windowsFeatures'"       
 
-#todo need to add SSRS and SSIS etc.
-#https://docs.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server-using-a-configuration-file?view=sql-server-2017
-# Create installer ini file and pass to choco
+# Install SQL Server with AX required components, add builtin administrators to group.
 
-choco install -y sql-server-2017
+$tools = Get-ToolsLocation
+New-Item -ItemType Directory -Force -Path $tools
+(New-Object System.Net.WebClient).DownloadFile("https://raw.githubusercontent.com/TroyArrandale/choco-recipe/master/SQLServer2017-ConfigurationFile.ini", "$tools\ConfigurationFile.ini")
+choco install -y sql-server-2017 -params="/ConfigurationFile:C:\tools\ConfigurationFile.ini"
+
+choco install ssrs --params "Dev"
+
 choco install -y sql-server-management-studio
 
 #Download MS Chart 3.5 
+
 (New-Object System.Net.WebClient).DownloadFile("https://download.microsoft.com/download/c/c/4/cc4dcac6-ea60-4868-a8e0-62a8510aa747/MSChart.exe", "$env:TEMP\MSChart.exe")
 # Quitley Install
 ."$env:TEMP\MSChart.exe" /q
@@ -159,26 +189,47 @@ Install-ChocolateyPackage `
 -checksum '0A97A7D7F9D1816009EA083796F895FF97B9B986C100704E99198A3A50B94F8A' `
 -checksumtype 'SHA256'
 
+choco install tfs2010objectmodel
 
-#TODO Needs to be seperate installer
 choco install visualstudio2013professional
 
-#TODO
-
-#https://download.microsoft.com/download/1/3/0/13089488-91FC-4E22-AD68-5BE58BD5C014/ENU/x64/SQL_AS_ADOMD.msi
-#https://download.microsoft.com/download/1/3/0/13089488-91FC-4E22-AD68-5BE58BD5C014/ENU/x86/SQL_AS_ADOMD.msi
-
-# Install box starter and run windows update in an attempt to get KB2703853
-# CINST Boxstarter
-# BOXSTARTERSHELL
-# Install-WindowsUpdate
-
-
+# Install missing KB Explicitly.
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 Install-Module -Name PSWindowsUpdate -RequiredVersion 2.1.0.1 -Confirm:$false -force -AllowClobber
 Get-WUInstall -KBArticleID KB2703853
 
+# Update all windows components as above update is flakey
 Write-Host "Run windows updates"
 Install-Module -Name PSWindowsUpdate -Force -AllowClobber
 Get-WUInstall -WindowsUpdate -AcceptAll -UpdateType Software -IgnoreReboot
 Get-WUInstall -MicrosoftUpdate -AcceptAll -IgnoreUserInput -IgnoreReboot
+
+
+
+#2014 probably can be removed
+Install-ChocolateyPackage `
+'SQL_AS_ADOMD 2014' 'msi' "/quiet /norestart" `
+'https://download.microsoft.com/download/1/3/0/13089488-91FC-4E22-AD68-5BE58BD5C014/ENU/x64/SQL_AS_ADOMD.msi' `
+-checksum 'D7E95DB67D8ECD97DA045D04FBED3C21B4AC889277A5B7EF1483F8CC50F56AC1' `
+-checksumtype 'SHA256'
+
+#2014 probably can be removed
+Install-ChocolateyPackage `
+'SQL_AS_ADO 2014' 'msi' "/quiet /norestart" `
+'https://download.microsoft.com/download/1/3/0/13089488-91FC-4E22-AD68-5BE58BD5C014/ENU/x64/SQL_AS_AMO.msi' `
+-checksum 'EC80922814E6B0693B2D6FC87C22BA02DC8A77D49620CD1EC5BD8091AB89CA1E' `
+-checksumtype 'SHA256'
+
+#2012 is required for bids
+Install-ChocolateyPackage `
+'SQL_AS_ADO 2012' 'msi' "/quiet /norestart" `
+'http://download.microsoft.com/download/F/E/D/FEDB200F-DE2A-46D8-B661-D019DFE9D470/ENU/x64/SQL_AS_AMO.msi' `
+-checksum 'DE4E07C3DC2AC6D89FDC52A947521D5F47605171AADE7E29E766F4DCB59696F5' `
+-checksumtype 'SHA256'
+
+
+$DesktopPath = [Environment]::GetFolderPath("Desktop")
+
+# Create a self signed cert for retail components.
+$Cert = New-SelfSignedCertificate -DnsName "localhost" -CertStoreLocation "cert:\LocalMachine\My"
+$Cert.Thumbprint | Out-File "$DesktopPath\thumbprint.txt"
