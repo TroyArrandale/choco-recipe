@@ -32,6 +32,8 @@ Import-Module "$env:ChocolateyInstall\helpers\chocolateyInstaller.psm1"
 <# allowing globally confirmation #> 
 choco feature enable -n=allowGlobalConfirmation;
 
+choco feature enable -n=allowEmptyChecksums
+
 #to list windows features with choco
 #choco list --source windowsFeatures
 
@@ -109,43 +111,45 @@ choco install vcredist2012
 
 
 #not working
-choco install mssyncframework21-corecomponents-x64
+choco install mssyncframework21-corecomponents-x64  --ignore-checksums
 
 Install-ChocolateyPackage `
 'MSSyncFramework21-sdk-x64' 'msi' "/quiet /norestart" `
 'https://download.microsoft.com/download/E/1/E/E1E636E6-AA5C-4052-9927-D722312DB564/Synchronization-v2.1-x64-ENU.msi' `
--checksum 'C5D8A7340520BE84D394BACBBAF57585D2812D5327856E52AFA3E0E5F230EA50' `
+-checksum '0F09E030163E01A551C52FB81682475541D65BE2F63E6CC0C6C7356B58D500E6' `
 -checksumtype 'SHA256'
+
 
 Install-ChocolateyPackage `
 'Synchronization-v2.1-x86-ENU' 'msi' "/quiet /norestart" `
 'https://download.microsoft.com/download/E/1/E/E1E636E6-AA5C-4052-9927-D722312DB564/Synchronization-v2.1-x86-ENU.msi' `
--checksum '02E12372082331AFC5A805A6A64BBCF3329D07EC1D89030CA31013BE504BE8B6' `
+-checksum 'F05D528846E0D5003D0D347EC8795507CAACF7CF24FE920A0311D5682F99DB66' `
 -checksumtype 'SHA256'
 
 Install-ChocolateyPackage `
 'DatabaseProviders-v3.1-x64-ENU' 'msi' "/quiet /norestart" `
 'https://download.microsoft.com/download/E/1/E/E1E636E6-AA5C-4052-9927-D722312DB564/DatabaseProviders-v3.1-x64-ENU.msi' `
--checksum 'F060B237C4DF222C9A268BC60E94ABF5B94812B84B4F0D50F2A03301308DFAA6' `
+-checksum '8F00AEFA7F00A0A68D80262DAA35F1F75CC59C39B9FAF823DA80C6DD7B00336C' `
 -checksumtype 'SHA256'
 
 Install-ChocolateyPackage `
 'DatabaseProviders-v3.1-x86-ENU' 'msi' "/quiet /norestart" `
 'https://download.microsoft.com/download/E/1/E/E1E636E6-AA5C-4052-9927-D722312DB564/DatabaseProviders-v3.1-x86-ENU.msi' `
--checksum '1874E2BBAEF36C9695B02680D98BBDD4424E8263E91AA7C897B88ECE0B446916' `
+-checksum '0B282B6B530D94939984BAFEFB90DC20ED300AD293B334B9513110D58E41C734' `
 -checksumtype 'SHA256'
 
 Install-ChocolateyPackage `
 'ProviderServices-v2.1-x64-ENU' 'msi' "/quiet /norestart" `
 'https://download.microsoft.com/download/E/1/E/E1E636E6-AA5C-4052-9927-D722312DB564/ProviderServices-v2.1-x64-ENU.msi' `
--checksum 'C689BC2A5E8DB10E9148BD8960FF91F88C7420507C36BDC1F0FA42BA583FBB70' `
+-checksum '562AEDCD9B75AD959C38A21D58318EA43C7FDAED5CCBF34BF4B3A4AE245D009F' `
 -checksumtype 'SHA256'
 
 Install-ChocolateyPackage `
 'ProviderServices-v2.1-x86-ENU' 'msi' "/quiet /norestart" `
 'https://download.microsoft.com/download/E/1/E/E1E636E6-AA5C-4052-9927-D722312DB564/ProviderServices-v2.1-x86-ENU.msi' `
--checksum '60244D374EA159C337EA8EBE8E86C04C70B721A3D79557291622EEE53FE52843' `
+-checksum 'AD4498FA1A918B8D225EB448421503A0C2476C445F7F851D1B71A7CD42943269' `
 -checksumtype 'SHA256'
+
 
 Install-ChocolateyPackage `
 'vcredist_x86.exe' 'exe' "/Q /NORESTART" `
